@@ -1,0 +1,3 @@
+import base64
+
+TELEGRAM_BOT_TOKEN = '7517091298:AAHsbkHgeBkK4OYatCE6hI9IRgOnonw3u7A'
