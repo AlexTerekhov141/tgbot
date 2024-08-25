@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:6.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  python-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: python-app
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_HOST=mongo
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+
+volumes:
+  mongo_data:
+    driver: local

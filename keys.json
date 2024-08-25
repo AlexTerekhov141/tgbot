@@ -1,0 +1,12 @@
+{
+    "keys": [
+        {
+            "id": "vpn1",
+            "key": "vpn://AAAHZ3janVXbbtowGL7vU6CodzDIERKkXrBS2lBBgbRroZmQmxgwSZyQhENbIe1V9gqT9h7dG812aBLU7KJLEPr9fZ9_-z_Efj0pkYezfBwDhGEYcc3SI8Po85paTAW2c0Ifg4y4EgjOiZqsCPWGrHCVAol4kEiaJguFCokqBE1u8KKsaPVCjUw1DZEXZL6uFLrpWlRSOLvrgR1bg-f5Yh5hyiuFrMGCVAsXNVh0ilrEuSCKpyTBM0Szx72amMImSZpJxmaWNpOrpJyYcixfeUpKqCxReVJOyDRDOa5rJVxeTzNycEdyckQgnBBKHjYOe1bzjo3DZhU1B1ougjjW7YQKQKc_shqdnTZZ2eW5s5VcaenZ203At-865dU9CneXzqhVc9SzD06mKHjfY1WtClVB_CgJQrSZOvA5Ec4ebtuThW286E63Z9tGZIOgv6y1lOH46wqMhfZyNls_3M1XTqtguWD9lLn6352zeicuHnUcw3AGLPjdNHHLtkMYRaWzUhpOTRIJ0e4bBDwdjPReazSekmGldGpcnN_024cxEQ1InCCG1_CZaD8Vpom7FplTpwYpLjFJZakNdmwvPB0ZArFJcYklUoVKrCuKZU1KADEBks4kY4k6yNqRIDJBsh40Mfk9DiAMaQIG6ycXWUkEhjdfzuZDaOxukTfcdqLF6v6yfiEtbpZLS9_ceF6vqz9IwcS5O2PRw2gBQmgns4euG4Bv7s7H0g7py_6wPLgaa3bZOcdBoN_Pa0_ypUWWWk16dHbLdf0ttPUBTT5fZW-Nr5SazRqN_QLbgY9wzLKhkbLwVUGSqkKDb8qq0JDp-uSARFFMmuQawgC4aANpKmhScrVf-FHcBx58b9ojXzmdF68PEqmR_ygDP4wpwVbN0MjJuvJTkWeeIxhuYHjc4J8qAWfivYmLTjm6aXq8sU0XCeIQ4IiqyLfqxz7Vru2AOxLuj-dl1xJVAw_DFwS-0Fsole2Z9T2Zx9lwBtZufP6vaaksskIUxMhnx_3bz7fff368_aL_JTEV4Ygd-EKVvTlYTGDaPyn8XvPkejmqOHeyP_kLlgTxgQ"
+        },
+        {
+            "id": "vpn2",
+            "key": "vpn://example_key_2"
+        }
+    ]
+}

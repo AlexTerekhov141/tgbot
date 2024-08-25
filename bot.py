@@ -42,7 +42,7 @@ async def start(update: Update, _: CallbackContext) -> None:
                 InlineKeyboardButton(text="Купить подписку\n", callback_data='buy_subscription')
             ],
             [
-                InlineKeyboardButton(text="Связаться с Менеджером\n", callback_data='buy_subscription')
+                InlineKeyboardButton(text="Связаться с Менеджером\n", callback_data='call_manager')
             ]
         ]
     )
@@ -111,24 +111,21 @@ async def get_key(update: Update, context: CallbackContext) -> None:
     unused_folder = 'unused_servers'
     used_folder = 'used_servers'
 
-
     if await check_subscription(user_id):
-
-        client = MongoClient('localhost', 27017)
+        client = MongoClient('localhost:27017')  # mongodb://mongo:27017/
         db = client['subscribers']
         collection = db['servers']
-
 
         server_info = collection.find_one({"user_id": user_id, "is_free": 'false'})
 
         if server_info:
-            #
             assigned_server_id = server_info['server_id']
             assigned_server_file = os.path.join(used_folder, f"{assigned_server_id}_{user_id}.conf")
 
             if os.path.isfile(assigned_server_file):
-                with open(assigned_server_file, 'rb') as file:
-                    await context.bot.send_document(chat_id=user_id, document=file)
+                with open(assigned_server_file, 'r') as file:
+                    file_content = file.read()
+                    await context.bot.send_message(chat_id=user_id, text=file_content)
                 await query.edit_message_text(
                     text="Ваш конфигурационный файл был повторно отправлен."
                 )
@@ -144,8 +141,9 @@ async def get_key(update: Update, context: CallbackContext) -> None:
             first_file = files[0]
             file_path = os.path.join(unused_folder, first_file)
 
-            with open(file_path, 'rb') as file:
-                await context.bot.send_document(chat_id=user_id, document=file)
+            with open(file_path, 'r') as file:
+                file_content = file.read()
+                await context.bot.send_message(chat_id=user_id, text=file_content)
                 await query.edit_message_text(
                     text="Ваша подписка активна. Конфигурационный файл был отправлен."
                 )
@@ -172,9 +170,8 @@ async def get_key(update: Update, context: CallbackContext) -> None:
             text="Ваша подписка не активна. Пожалуйста, оплатите подписку."
         )
 
-
 async def check_subscription(user_id: int) -> bool:
-    client = MongoClient('localhost', 27017)
+    client = MongoClient('localhost:27017')
     db = client['subscribers']
     collection = db['subs']
 
@@ -260,7 +257,7 @@ async def precheckout_callback(update: Update, context: CallbackContext) -> None
 
 async def successful_payment_callback(update: Update, context: CallbackContext) -> None:
     user_id = update.message.from_user.id
-    client = MongoClient('localhost', 27017)
+    client = MongoClient('localhost:27017')
     db = client['subscribers']
     collection = db['subs']
     current_time = datetime.utcnow()
@@ -303,14 +300,24 @@ async def successful_payment_callback(update: Update, context: CallbackContext) 
         collection.insert_one({
             "user_id": user_id,
             "subscription_end_time": new_end_time.isoformat() + 'Z',
-            "subscription_choice": subscription_choice,
-            "server_id": '1'
+            "subscription_choice": subscription_choice
         })
 
 
     await update.message.reply_text(
         f"Оплата прошла успешно! Ваша подписка активирована на {days_to_add // 30} месяцев.")
 
+
+async def handle_manager_contact(update: Update, context: CallbackContext) -> None:
+    query = update.callback_query
+    await query.answer()
+
+
+    chat_link = 'https://t.me/alxterek'
+    await query.edit_message_text(
+        text=f"Пожалуйста, [свяжитесь с нами здесь]({chat_link}) для дальнейшего общения.",
+        parse_mode='Markdown'
+    )
 
 def main() -> None:
     """Запуск бота."""
@@ -325,6 +332,7 @@ def main() -> None:
     application.add_handler(CallbackQueryHandler(handle_payment, pattern='^subscribe_12_months$'))
     application.add_handler(CallbackQueryHandler(oplata, pattern='^oplata_(1|3|6|12)$'))
     application.add_handler(CallbackQueryHandler(get_key, pattern='^buy_key$'))
+    application.add_handler(CallbackQueryHandler(handle_manager_contact, pattern='^call_manager$'))
 
     application.add_handler(PreCheckoutQueryHandler(precheckout_callback))
     application.add_handler(MessageHandler(filters.SUCCESSFUL_PAYMENT, successful_payment_callback))
